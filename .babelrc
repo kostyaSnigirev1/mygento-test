@@ -1,0 +1,24 @@
+{
+  "presets": [
+    ["next/babel"],
+    [
+      "@babel/preset-react",
+      { "runtime": "automatic", "importSource": "@emotion/react" }
+    ],
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    ["@emotion/babel-plugin"],
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "src": "./src",
+          "utils": "./utils",
+          "lib": "./lib"
+        }
+      }
+    ]
+  ]
+}
