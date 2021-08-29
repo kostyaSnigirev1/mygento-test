@@ -6,14 +6,14 @@ const theme = createTheme({
     MuiDialog: {
       defaultProps: {
         disablePortal: true,
-        // transitionDuration: {
-        //   enter: 300,
-        //   exit: 300,
-        // },
+        transitionDuration: {
+          enter: 300,
+          exit: 300,
+        },
         BackdropProps: {
-          style: {
-            backgroundColor: '#000000',
-            opacity: '0.4',
+          transitionDuration: {
+            enter: 300,
+            exit: 300,
           },
         },
       },
