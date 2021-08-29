@@ -6,12 +6,9 @@ import { styled } from '@material-ui/system';
 const CustomSumbitButton = styled(Button)(({ theme }) => ({
   width: 360,
   height: 40,
-  marginTop: 48,
   [theme.breakpoints.down('md')]: {
     width: '100%',
-  },
-  '&:hover': {
-    backgroundColor: '#1890FF',
+    marginBottom: 82,
   },
   '& p': {
     lineHeight: '150%',
@@ -31,6 +28,9 @@ const SumbitButton: React.FC<SumbitButtonProps> = (props) => {
       color="primary"
       sx={{
         backgroundColor: isValid ? '#E8E8E8' : undefined,
+        '&:hover': {
+          backgroundColor: isValid ? '#E8E8E8' : '#1890FF',
+        },
       }}
     >
       <Typography

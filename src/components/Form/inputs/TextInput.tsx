@@ -16,7 +16,9 @@ const TextInput = React.forwardRef<HTMLInputElement, CustomFormControlProps>(
     const { label, ...other } = props;
     return (
       <CustomFormControl required>
-        <Typography component="label">{label}</Typography>
+        <Typography component="label" variant="subtitle1">
+          {label}
+        </Typography>
         <TextField {...other} inputRef={ref} />
       </CustomFormControl>
     );

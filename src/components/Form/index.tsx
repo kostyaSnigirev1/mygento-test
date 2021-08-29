@@ -1,23 +1,25 @@
 import * as React from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { observer } from 'mobx-react-lite';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import validationSchema from './validationSchema';
-import TextInput from './inputs/TextInput';
+import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import { Title } from 'components/AppComp';
 import inputs from './formData';
-import FileInput from './inputs/FileInput';
-import { SumbitButton } from 'components/Form/SumbitButton';
+import validationSchema from './validationSchema';
+import { TextInput, FileInput, CusomCheckbox } from './inputs';
+import { SumbitButton } from './SumbitButton';
+import { Title } from 'src/components/AppComp';
+import { useStores } from 'utils/useStore';
 
-const Form: React.FC = () => {
+const Form: React.FC = observer(() => {
+  const { modalStore } = useStores();
+  const agree = modalStore.privacyCloseType === 'agree';
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -28,13 +30,30 @@ const Form: React.FC = () => {
       site: '',
       file: '' as File | string,
       link: '',
+      agree: false,
     },
     validateOnBlur: true,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      modalStore.setUserName(values.name);
+      modalStore.handleModal('succesModal');
     },
   });
+
+  React.useEffect(() => {
+    if (agree) {
+      formik.setFieldValue('agree', agree);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [agree]);
+
+  React.useEffect(() => {
+    if (modalStore.clearForm) {
+      formik.resetForm();
+      modalStore.setClearForm();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalStore.clearForm]);
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -79,7 +98,12 @@ const Form: React.FC = () => {
                 </FormHelperText>
               )}
             </Grid>
-            <RadioGroup row name="sex" onChange={formik.handleChange}>
+            <RadioGroup
+              row
+              name="sex"
+              value={formik.values.sex}
+              onChange={formik.handleChange}
+            >
               <FormControlLabel
                 value="men"
                 control={<Radio />}
@@ -111,10 +135,45 @@ const Form: React.FC = () => {
             onBlur={formik.handleBlur}
           />
         </Grid>
+        <Grid item xs={12} md={9}>
+          <FormControl error={!!formik.errors.agree}>
+            <FormControlLabel
+              value={formik.values.agree}
+              control={
+                <CusomCheckbox
+                  name="agree"
+                  checked={!!formik.values.agree}
+                  onChange={formik.handleChange}
+                />
+              }
+              label={
+                <Typography variant="subtitle1" sx={{ whiteSpace: 'nowrap' }}>
+                  * Я согласен с{' '}
+                  <Link
+                    component="button"
+                    sx={{ fontSize: 14, verticalAlign: 'unset' }}
+                    onClick={(
+                      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+                    ) => {
+                      e.preventDefault();
+                      modalStore.handleModal('privacyPolicyModal');
+                    }}
+                  >
+                    политикой конфиденциальности
+                  </Link>
+                </Typography>
+              }
+              labelPlacement="end"
+            />
+            {formik.errors.agree && (
+              <FormHelperText>{formik.errors.agree}</FormHelperText>
+            )}
+          </FormControl>
+        </Grid>
       </Grid>
       <SumbitButton isValid={!(formik.isValid && formik.dirty)} />
     </form>
   );
-};
+});
 
 export default Form;

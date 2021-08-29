@@ -18,9 +18,6 @@ const theme = createTheme({
           props: { color: 'fileColor' },
           style: {
             backgroundColor: innerTheme.palette.fileColor.main,
-            '&:hover': {
-              //   backgroundColor: defaultTheme.palette.secondary.main,
-            },
           },
         },
       ],

@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import Grid from '@material-ui/core/Grid';
 import { useTheme } from '@material-ui/core/styles';
+import { css } from '@emotion/react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { styled } from '@material-ui/system';
 import Container from '@material-ui/core/Container';
-import { Title } from 'components/AppComp';
-import { css } from '@emotion/react';
-import Form from '../components/Form';
+import { Title } from 'src/components/AppComp';
+import Form from 'src/components/Form';
 
 const titleStyle = css({
   position: 'relative',
@@ -30,10 +30,10 @@ const Home: NextPage = () => {
         <Grid item xs>
           <Form />
         </Grid>
-        <Grid item xs></Grid>
       </PageContainer>
     </Container>
   );
 };
 
 export default Home;
+

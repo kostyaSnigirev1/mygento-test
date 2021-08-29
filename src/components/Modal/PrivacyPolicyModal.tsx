@@ -1,46 +1,82 @@
 import * as React from 'react';
+import { observer } from 'mobx-react-lite';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import { observer } from 'mobx-react-lite';
+import Typography from '@material-ui/core/Typography';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import IconButton from '@material-ui/core/IconButton';
 import { useTheme } from '@material-ui/core/styles';
 import { useStores } from 'utils/useStore';
-import Typography from '@material-ui/core/Typography';
+import { CancelIconLarge } from 'src/Icon';
+
+// use css prop example
 
 const PrivacyPolicyModal: React.FC = observer(() => {
-  const [open, setOpen] = React.useState(false);
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const mobile = useMediaQuery(theme.breakpoints.down('md'));
   const { modalStore } = useStores();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
-    setOpen(false);
+    modalStore.handleModal('privacyPolicyModal', 'close');
   };
 
   return (
     <Dialog
-      open={
-        //   modalStore.modal.privacyPolicyModal
-        true
-      }
+      open={modalStore.modal.privacyPolicyModal}
       onClose={handleClose}
-      aria-labelledby="responsive-dialog-title"
+      css={{
+        '& .MuiPaper-root': {
+          maxWidth: 758,
+        },
+      }}
+      aria-labelledby="Privacy-Policy"
     >
       <DialogTitle>
-        <Typography textAlign="center" variant="h2">
+        <Typography
+          component="p"
+          variant="h2"
+          textAlign={mobile ? 'initial' : 'center'}
+        >
           Политика конфиденциальности
         </Typography>
+        <IconButton
+          aria-label="close"
+          sx={{
+            position: 'absolute',
+            top: 38,
+            right: !mobile ? 44 : 20,
+          }}
+          onClick={handleClose}
+        >
+          <CancelIconLarge />
+        </IconButton>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent
+        css={{
+          padding: '24px 40px',
+          '& > p': {
+            marginTop: 24,
+            '& span': {
+              '& span': {
+                display: 'block',
+                fontWeight: 700,
+              },
+            },
+          },
+          [theme.breakpoints.down('md')]: {
+            padding: '24px 20px 24px 16px',
+            '& > p': {
+              marginTop: 32,
+            },
+          },
+        }}
+      >
         <DialogContentText>
-          <Typography variant="privatPolicyText">
+          <Typography variant="privatPolicyText" component="span">
             <span>1. Общие положения</span>
             Настоящая политика обработки персональных данных составлена в
             соответствии с требованиями Федерального закона от 27.07.2006.
@@ -175,12 +211,27 @@ const PrivacyPolicyModal: React.FC = observer(() => {
           </Typography>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Disagree
-        </Button>
-        <Button onClick={handleClose} autoFocus>
-          Agree
+      <DialogActions
+        css={{
+          padding: '58px 0 48px',
+          justifyContent: 'center',
+          '& button': {
+            width: 360,
+            textTransform: 'none',
+          },
+          [theme.breakpoints.down('md')]: {
+            padding: '24px 16px 12px',
+            '& button': {
+              width: '100%',
+            },
+          },
+        }}
+      >
+        <Button
+          onClick={() => modalStore.handleModal('privacyPolicyModal', 'agree')}
+          autoFocus
+        >
+          Я согласен
         </Button>
       </DialogActions>
     </Dialog>

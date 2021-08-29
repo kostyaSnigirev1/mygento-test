@@ -3,7 +3,6 @@
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext", "es6"],
     "allowJs": true,
-    "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -22,7 +21,6 @@
     "types": ["@emotion/react/types/css-prop"],
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"]
     }
   },
   "include": ["next-env.d.ts", "modules.d.ts", "**/*.ts", "**/*.tsx"],

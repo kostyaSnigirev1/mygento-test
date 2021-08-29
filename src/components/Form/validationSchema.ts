@@ -30,13 +30,16 @@ const requiredString = yup
 const validationSchema = yup.object().shape({
   name: requiredString,
   surname: requiredString,
+
+  agree: yup.boolean().oneOf([true], 'Обязательно').required(),
   email: yup
     .string()
     .email('Пожалуйста укажите электронную почту')
     .required('Пожалуйста укажите электронную почту'),
+
   file: yup
     .mixed()
-    .required('A file is required')
+    .required('Файл')
     .test('file', 'загружайте файл размером не более 16 mb', (value) => {
       return value?.size <= FILE_SIZE;
     })
@@ -44,6 +47,7 @@ const validationSchema = yup.object().shape({
       return value && SUPPORTED_FORMATS.includes(value.type);
     })
     .label('file'),
+
   sex: yup.string().required('укажите пол'),
 });
 

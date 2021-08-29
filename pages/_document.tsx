@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { useStaticRendering } from 'mobx-react-lite';
 import createEmotionServer from '@emotion/server/create-instance';
-import createEmotionCache from 'components/utils/createEmotionCache';
+import createEmotionCache from 'utils/createEmotionCache';
 
 export default class MyDocument extends Document {
   render() {
