@@ -8,6 +8,7 @@ const CustomFormControl = styled(FormControl)((_) => ({
   '& label': {
     lineHeight: '157%',
     marginBottom: 2,
+    whiteSpace: 'no-wrap',
   },
 }));
 
