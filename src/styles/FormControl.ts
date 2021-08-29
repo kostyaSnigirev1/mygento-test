@@ -14,6 +14,7 @@ const theme = createTheme({
           '& .MuiFormHelperText-root.Mui-error': {
             color: '#F5222D',
             marginLeft: 0,
+            whiteSpace: 'nowrap',
             lineHeight: '157%',
             fontSize: innerTheme.typography.pxToRem(14),
           },
